@@ -1,7 +1,7 @@
 [project]
-name = "adk-challenge-usecase"
+name = "adk-usecase"
 version = "0.1.0"
-description = "Add your description here"
+description = "This repo compares different use cases to shoe how to use ADK with Gemini models and ADK with Ollama, an open-source tool that runs open LLMs on your local machine (or a server)."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []

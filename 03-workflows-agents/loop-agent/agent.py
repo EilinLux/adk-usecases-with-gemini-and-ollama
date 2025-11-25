@@ -1,20 +1,8 @@
-
-import os
-if os.environ["GOOGLE_API_KEY"]:
-    print("✅ Gemini API key setup complete.")
-else:
-    print(
-        f"🔑 Authentication Error: Please make sure you have added 'GOOGLE_API_KEY' to your .env secrets"
-    )
-
-from google.adk.agents import Agent, SequentialAgent, ParallelAgent, LoopAgent
+from google.adk.agents import Agent, SequentialAgent, LoopAgent
 from google.adk.models.google_llm import Gemini
 from google.adk.runners import InMemoryRunner
-from google.adk.tools import AgentTool, FunctionTool, google_search
+from google.adk.tools import FunctionTool
 from google.genai import types
-
-print("✅ ADK components imported successfully.")
-
 
 
 retry_config=types.HttpRetryOptions(
@@ -35,8 +23,6 @@ initial_writer_agent = Agent(
     output_key="current_story",  # Stores the first draft in the state.
 )
 
-print("✅ initial_writer_agent created.")
-
 
 # This agent's only job is to provide feedback or the approval signal. It has no tools.
 critic_agent = Agent(
@@ -54,16 +40,12 @@ critic_agent = Agent(
     output_key="critique",  # Stores the feedback in the state.
 )
 
-print("✅ critic_agent created.")
-
 
 # This is the function that the RefinerAgent will call to exit the loop.
 def exit_loop():
     """Call this function ONLY when the critique is 'APPROVED', indicating the story is finished and no more changes are needed."""
     return {"status": "approved", "message": "Story approved. Exiting refinement loop."}
 
-
-print("✅ exit_loop function created.")
 
 
 # This agent refines the story based on critique OR calls the exit_loop function.
@@ -87,7 +69,6 @@ refiner_agent = Agent(
     ],  # The tool is now correctly initialized with the function reference.
 )
 
-print("✅ refiner_agent created.")
 # The LoopAgent contains the agents that will run repeatedly: Critic -> Refiner.
 story_refinement_loop = LoopAgent(
     name="StoryRefinementLoop",
@@ -101,5 +82,4 @@ root_agent = SequentialAgent(
     sub_agents=[initial_writer_agent, story_refinement_loop],
 )
 
-print("✅ Loop and Sequential Agents created.")
 runner = InMemoryRunner(agent=root_agent)

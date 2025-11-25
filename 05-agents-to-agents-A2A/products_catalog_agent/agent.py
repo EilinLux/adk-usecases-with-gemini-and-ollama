@@ -1,9 +1,3 @@
-import json
-import requests
-import subprocess
-import time
-import uuid
-
 from google.adk.agents import LlmAgent
 from google.adk.agents.remote_a2a_agent import (
     RemoteA2aAgent,
@@ -11,16 +5,12 @@ from google.adk.agents.remote_a2a_agent import (
 )
 
 from google.adk.models.google_llm import Gemini
-from google.adk.runners import Runner
-from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 # Hide additional warnings in the notebook
 import warnings
 
 warnings.filterwarnings("ignore")
-
-print("✅ ADK components imported successfully.")
 
 
 retry_config = types.HttpRetryOptions(
