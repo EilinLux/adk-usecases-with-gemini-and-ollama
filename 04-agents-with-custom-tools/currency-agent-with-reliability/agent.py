@@ -1,22 +1,10 @@
-
-import os
-if os.environ["GOOGLE_API_KEY"]:
-    print("✅ Gemini API key setup complete.")
-else:
-    print(
-        f"🔑 Authentication Error: Please make sure you have added 'GOOGLE_API_KEY' to your .env secrets"
-    )
-
 from google.genai import types
-
 from google.adk.agents import LlmAgent
 from google.adk.models.google_llm import Gemini
 from google.adk.runners import InMemoryRunner
-from google.adk.sessions import InMemorySessionService
-from google.adk.tools import google_search, AgentTool, ToolContext
+from google.adk.tools import AgentTool
 from google.adk.code_executors import BuiltInCodeExecutor
 
-print("✅ ADK components imported successfully.")
 
 def show_python_code_and_result(response):
     for i in range(len(response)):
@@ -38,7 +26,6 @@ def show_python_code_and_result(response):
                     print("Generated Python Response >> ", response_code["result"])
 
 
-print("✅ Helper functions defined.")
 
 retry_config=types.HttpRetryOptions(
     attempts=5,  # Maximum retry attempts
@@ -46,6 +33,8 @@ retry_config=types.HttpRetryOptions(
     initial_delay=1, # Initial delay before first retry (in seconds)
     http_status_codes=[429, 500, 503, 504] # Retry on these HTTP errors
 )
+
+
 # Pay attention to the docstring, type hints, and return value.
 def get_fee_for_payment_method(method: str) -> dict:
     """Looks up the transaction fee percentage for a given payment method.
@@ -77,11 +66,6 @@ def get_fee_for_payment_method(method: str) -> dict:
             "status": "error",
             "error_message": f"Payment method '{method}' not found",
         }
-
-
-print("✅ Fee lookup function created")
-print(f"💳 Test: {get_fee_for_payment_method('platinum credit card')}")
-
 
 
 def get_exchange_rate(base_currency: str, target_currency: str) -> dict:
@@ -122,10 +106,6 @@ def get_exchange_rate(base_currency: str, target_currency: str) -> dict:
             "status": "error",
             "error_message": f"Unsupported currency pair: {base_currency}/{target_currency}",
         }
-
-
-print("✅ Exchange rate function created")
-print(f"💱 Test: {get_exchange_rate('USD', 'EUR')}")
 
 
 
@@ -175,11 +155,5 @@ root_agent = LlmAgent(
         AgentTool(agent=calculation_agent),  # Using another agent as a tool!
     ],
 )
-
-print("✅ Enhanced currency agent created")
-print("🎯 New capability: Delegates calculations to specialist agent")
-print("🔧 Tool types used:")
-print("  • Function Tools (fees, rates)")
-print("  • Agent Tool (calculation specialist)")
 
 runner = InMemoryRunner(agent=root_agent)

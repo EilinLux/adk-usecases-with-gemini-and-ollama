@@ -1,22 +1,8 @@
-
-import os
-if os.environ["GOOGLE_API_KEY"]:
-    print("✅ Gemini API key setup complete.")
-else:
-    print(
-        f"🔑 Authentication Error: Please make sure you have added 'GOOGLE_API_KEY' to your .env secrets"
-    )
-
 from google.genai import types
-
 from google.adk.agents import LlmAgent
 from google.adk.models.google_llm import Gemini
 from google.adk.runners import InMemoryRunner
-from google.adk.sessions import InMemorySessionService
-from google.adk.tools import google_search, AgentTool, ToolContext
-from google.adk.code_executors import BuiltInCodeExecutor
 
-print("✅ ADK components imported successfully.")
 
 def show_python_code_and_result(response):
     for i in range(len(response)):
@@ -38,7 +24,6 @@ def show_python_code_and_result(response):
                     print("Generated Python Response >> ", response_code["result"])
 
 
-print("✅ Helper functions defined.")
 
 retry_config=types.HttpRetryOptions(
     attempts=5,  # Maximum retry attempts
@@ -77,10 +62,6 @@ def get_fee_for_payment_method(method: str) -> dict:
             "status": "error",
             "error_message": f"Payment method '{method}' not found",
         }
-
-
-print("✅ Fee lookup function created")
-print(f"💳 Test: {get_fee_for_payment_method('platinum credit card')}")
 
 
 
@@ -124,9 +105,6 @@ def get_exchange_rate(base_currency: str, target_currency: str) -> dict:
         }
 
 
-print("✅ Exchange rate function created")
-print(f"💱 Test: {get_exchange_rate('USD', 'EUR')}")
-
 # Currency agent with custom function tools
 root_agent = LlmAgent(
     name="currency_agent",
@@ -146,10 +124,5 @@ root_agent = LlmAgent(
     """,
     tools=[get_fee_for_payment_method, get_exchange_rate],
 )
-
-print("✅ Currency agent created with custom function tools")
-print("🔧 Available tools:")
-print("  • get_fee_for_payment_method - Looks up company fee structure")
-print("  • get_exchange_rate - Gets current exchange rates")
 
 runner = InMemoryRunner(agent=root_agent)

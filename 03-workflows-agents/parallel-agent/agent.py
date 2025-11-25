@@ -1,20 +1,8 @@
-
-import os
-if os.environ["GOOGLE_API_KEY"]:
-    print("✅ Gemini API key setup complete.")
-else:
-    print(
-        f"🔑 Authentication Error: Please make sure you have added 'GOOGLE_API_KEY' to your .env secrets"
-    )
-
-from google.adk.agents import Agent, SequentialAgent, ParallelAgent, LoopAgent
+from google.adk.agents import Agent, SequentialAgent, ParallelAgent
 from google.adk.models.google_llm import Gemini
 from google.adk.runners import InMemoryRunner
-from google.adk.tools import AgentTool, FunctionTool, google_search
+from google.adk.tools import google_search
 from google.genai import types
-
-print("✅ ADK components imported successfully.")
-
 
 
 retry_config=types.HttpRetryOptions(
@@ -36,7 +24,6 @@ the main companies involved, and the potential impact. Keep the report very conc
     output_key="tech_research",  # The result of this agent will be stored in the session state with this key.
 )
 
-print("✅ tech_researcher created.")
 
 # Health Researcher: Focuses on medical breakthroughs.
 health_researcher = Agent(
@@ -51,7 +38,6 @@ their practical applications, and estimated timelines. Keep the report concise (
     output_key="health_research",  # The result will be stored with this key.
 )
 
-print("✅ health_researcher created.")
 
 
 # Finance Researcher: Focuses on fintech trends.
@@ -67,7 +53,6 @@ their market implications, and the future outlook. Keep the report concise (100 
     output_key="finance_research",  # The result will be stored with this key.
 )
 
-print("✅ finance_researcher created.")
 
 # The AggregatorAgent runs *after* the parallel step to synthesize the results.
 aggregator_agent = Agent(
@@ -92,7 +77,6 @@ aggregator_agent = Agent(
     output_key="executive_summary",  # This will be the final output of the entire system.
 )
 
-print("✅ aggregator_agent created.")
 
 # The ParallelAgent runs all its sub-agents simultaneously.
 parallel_research_team = ParallelAgent(
@@ -106,6 +90,5 @@ root_agent = SequentialAgent(
     sub_agents=[parallel_research_team, aggregator_agent],
 )
 
-print("✅ Parallel and Sequential Agents created.")
 
 runner = InMemoryRunner(agent=root_agent)

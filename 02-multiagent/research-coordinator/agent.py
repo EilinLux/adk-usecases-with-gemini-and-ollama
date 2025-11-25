@@ -1,20 +1,8 @@
-
-import os
-if os.environ["GOOGLE_API_KEY"]:
-    print("✅ Gemini API key setup complete.")
-else:
-    print(
-        f"🔑 Authentication Error: Please make sure you have added 'GOOGLE_API_KEY' to your .env secrets"
-    )
-
 from google.adk.agents import Agent, SequentialAgent, ParallelAgent, LoopAgent
 from google.adk.models.google_llm import Gemini
 from google.adk.runners import InMemoryRunner
 from google.adk.tools import AgentTool, FunctionTool, google_search
 from google.genai import types
-
-print("✅ ADK components imported successfully.")
-
 
 
 retry_config=types.HttpRetryOptions(
@@ -37,7 +25,6 @@ research_agent = Agent(
     output_key="research_findings",  # The result of this agent will be stored in the session state with this key.
 )
 
-print("✅ research_agent created.")
 
 
 # Summarizer Agent: Its job is to summarize the text it receives.
@@ -53,7 +40,6 @@ Create a concise summary as a bulleted list with 3-5 key points.""",
     output_key="final_summary",
 )
 
-print("✅ summarizer_agent created.")
 
 
 
@@ -74,6 +60,5 @@ root_agent = Agent(
     tools=[AgentTool(research_agent), AgentTool(summarizer_agent)],
 )
 
-print("✅ root_agent created.")
 
 runner = InMemoryRunner(agent=root_agent)

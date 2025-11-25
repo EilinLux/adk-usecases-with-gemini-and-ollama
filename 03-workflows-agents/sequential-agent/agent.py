@@ -1,19 +1,8 @@
-
-import os
-if os.environ["GOOGLE_API_KEY"]:
-    print("✅ Gemini API key setup complete.")
-else:
-    print(
-        f"🔑 Authentication Error: Please make sure you have added 'GOOGLE_API_KEY' to your .env secrets"
-    )
-
-from google.adk.agents import Agent, SequentialAgent, ParallelAgent, LoopAgent
+from google.adk.agents import Agent, SequentialAgent
 from google.adk.models.google_llm import Gemini
 from google.adk.runners import InMemoryRunner
-from google.adk.tools import AgentTool, FunctionTool, google_search
 from google.genai import types
 
-print("✅ ADK components imported successfully.")
 
 
 
@@ -39,7 +28,6 @@ outline_agent = Agent(
     output_key="blog_outline",  # The result of this agent will be stored in the session state with this key.
 )
 
-print("✅ outline_agent created.")
 
 # Writer Agent: Writes the full blog post based on the outline from the previous agent.
 writer_agent = Agent(
@@ -54,7 +42,6 @@ writer_agent = Agent(
     output_key="blog_draft",  # The result of this agent will be stored with this key.
 )
 
-print("✅ writer_agent created.")
 
 # Editor Agent: Edits and polishes the draft from the writer agent.
 editor_agent = Agent(
@@ -69,13 +56,11 @@ editor_agent = Agent(
     output_key="final_blog",  # This is the final output of the entire pipeline.
 )
 
-print("✅ editor_agent created.")
 
 root_agent = SequentialAgent(
     name="BlogPipeline",
     sub_agents=[outline_agent, writer_agent, editor_agent],
 )
 
-print("✅ Sequential Agent created.")
 
 runner = InMemoryRunner(agent=root_agent)
