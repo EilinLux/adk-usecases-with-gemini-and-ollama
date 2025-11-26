@@ -1,3 +1,4 @@
 google-adk[a2a]      # Core Agent Development Kit
 litellm              # Required to talk to non-Google models (Ollama)
 duckduckgo-search    # Required for the "web_search" tool replacement
+beautifulsoup4
