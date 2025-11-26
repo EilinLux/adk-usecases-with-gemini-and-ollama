@@ -1,0 +1,39 @@
+# Global settings for models and retries
+settings:
+  model_name: "gemini-2.5-flash-lite"
+  retry_config:
+    attempts: 5
+    exp_base: 7
+    initial_delay: 1
+    http_status_codes: [429, 500, 503, 504]
+
+# Define the individual agents
+agents:
+  research_agent:
+    name: "ResearchAgent"
+    description: "Finds relevant information using Google Search."
+    instruction: |
+      You are a specialized research agent. Your only job is to use the
+      google_search tool to find 2-3 pieces of relevant information on the given topic and present the findings with citations.
+    tools: ["google_search"]
+    output_key: "research_findings"
+
+  summarizer_agent:
+    name: "SummarizerAgent"
+    description: "Summarizes text into bullet points."
+    instruction: |
+      Read the provided research findings: {research_findings}
+      Create a concise summary as a bulleted list with 3-5 key points.
+    tools: [] # No external tools needed
+    output_key: "final_summary"
+
+  root_agent:
+    name: "ResearchCoordinator"
+    description: "Orchestrates the research and summarization workflow."
+    instruction: |
+      You are a research coordinator. Your goal is to answer the user's query by orchestrating a workflow.
+      1. First, you MUST call the `ResearchAgent` tool to find relevant information on the topic provided by the user.
+      2. Next, after receiving the research findings, you MUST call the `SummarizerAgent` tool to create a concise summary.
+      3. Finally, present the final summary clearly to the user as your response.
+    # We reference the OTHER agents by their keys here
+    tools: ["research_agent", "summarizer_agent"]
