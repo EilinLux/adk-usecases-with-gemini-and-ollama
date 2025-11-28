@@ -22,6 +22,7 @@ Ensure you have the Google ADK and GenAI libraries installed:
 pip install google-adk google-genai
 ```
 
+Better if you use the `requirements.txt` in the root folder of the repo.
 -----
 
 ## 🛠️ Class & Component Breakdown

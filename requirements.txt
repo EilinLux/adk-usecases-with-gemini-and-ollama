@@ -1,4 +1,27 @@
 google-adk[a2a]      # Core Agent Development Kit
 litellm              # Required to talk to non-Google models (Ollama)
 duckduckgo-search    # Required for the "web_search" tool replacement
-beautifulsoup4
+beautifulsoup4       # Required for the "web_search" tool replacement
+
+
+ # ML model agent
+# anemoi-inference[huggingface]
+# anemoi-models
+# earthkit-data
+# earthkit-regrid
+# ecmwf-opendata
+torch
+numpy 
+
+# price calculator
+scikit-learn
+
+# hugginig face model 
+#xgboost 
+joblib 
+huggingface_hub
+diffusers
+transformers
+# accelerate
+# sentencepiece
+scipy
