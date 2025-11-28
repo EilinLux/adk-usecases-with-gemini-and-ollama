@@ -13,7 +13,7 @@ retry_config=types.HttpRetryOptions(
 )
 
 root_agent = Agent(
-    name="helpful_assistant",
+    name="helpful_assistant", # you see this in the adk web
     model=Gemini(
         model="gemini-2.5-flash-lite",
         retry_options=retry_config
@@ -23,6 +23,9 @@ root_agent = Agent(
     tools=[google_search],
 )
 
-runner = InMemoryRunner(agent=root_agent)
+runner = InMemoryRunner(agent=root_agent) 
+# This runner uses in-memory implementations for 
+# artifact, session, and memory services, 
+# providing a lightweight and self-contained environment for agent execution.
 
 

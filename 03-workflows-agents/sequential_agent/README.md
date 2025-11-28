@@ -1,4 +1,3 @@
-Here is the README for your Sequential Blog Pipeline, provided directly in the chat.
 
 # 📝 Automated Blog Post Pipeline
 
