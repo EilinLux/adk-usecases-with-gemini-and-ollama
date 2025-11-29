@@ -53,7 +53,7 @@ def read_website(url: str) -> dict:
         # Truncate if too long (Ollama has limits, keep it under ~4000 chars of context per site)
         return {
             "status": "success",
-            "content": text[:4000] + "... [content truncated]"
+            "content": text[:10000] + "... [content truncated]"
         }
     except Exception as e:
         return {"status": "error", "message": f"Could not read website: {str(e)}"}
